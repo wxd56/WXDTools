@@ -29,4 +29,13 @@ public class IOReadUtil {
 		
 		return new String(baos.toByteArray(),encode);
 	}
+	
+	/**
+	 * 读取输入流，将读取的内容作为字符串返回,字符串以“GBK”编码
+	 * @param is
+	 * @throws IOException 
+	 */
+	public static  String read(InputStream is) throws IOException{
+		return read(is,"GBK");
+	}
 }

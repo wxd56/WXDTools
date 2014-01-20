@@ -7,6 +7,9 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
+import com.wxd.rapid.tool.android.json.JSONObjectParser;
+import com.wxd.rapid.tool.io.IOReadUtil;
+
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -38,8 +41,8 @@ public class NetUtil {
 			conn.setConnectTimeout(5000);
 			
 			InputStream is = conn.getInputStream();
-			
-			
+			String result = IOReadUtil.read(is);
+			return result;
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (ProtocolException e) {
@@ -52,5 +55,14 @@ public class NetUtil {
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * 发送简单的GET请求,对返回的Json对象进行解析，通过反射技术，转换成指定的类型。
+	 * @return  服务器返回的信息
+	 */
+	public static <T> T get(String paramUrl,Class<T> clazz) throws Exception{	
+		String resulString = get(paramUrl);
+		return JSONObjectParser.parseObject(resulString, clazz);
 	}
 }
